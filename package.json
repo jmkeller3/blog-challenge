@@ -1,0 +1,24 @@
+{
+  "name": "blog-challenge",
+  "version": "1.0.0",
+  "description": "A Website for Bloggers",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmkeller3/blog-challenge.git"
+  },
+  "author": "John Keller",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jmkeller3/blog-challenge/issues"
+  },
+  "homepage": "https://github.com/jmkeller3/blog-challenge#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "nodemon": "^1.17.5",
+    "uuid": "^3.2.1"
+  }
+}
