@@ -18,6 +18,7 @@
   "homepage": "https://github.com/jmkeller3/blog-challenge#readme",
   "dependencies": {
     "express": "^4.16.3",
+    "body-parser": "*",
     "morgan": "^1.9.0",
     "nodemon": "^1.17.5",
     "uuid": "^3.2.1"
