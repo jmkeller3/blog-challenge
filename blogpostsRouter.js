@@ -4,7 +4,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {Blogposts} = require('./models');
+const {BlogPosts} = require('./models');
 
 //sample blogs
 BlogPosts.create('Who is Who at Whoville', 'Many are wondering who is top who for the whoville whovest . . .', 'Gary Whoster');
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     res.json(BlogPosts.get());
 });
 
-router.post('/', jsonParer, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
     const requiredFields = ['title', 'content', 'author'];
     for (let i=0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
@@ -30,7 +30,7 @@ router.post('/', jsonParer, (req, res) => {
     res.status(201).json(item);
 });
 
-router.put('/:id', jsonParer, (req, res) => {
+router.put('/:id', jsonParser, (req, res) => {
     const requiredFields = ['title', 'content', 'author'];
     for (let i=0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
