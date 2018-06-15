@@ -23,27 +23,31 @@ describe('BlogPosts', function() {
                 expect(res).to.have.status(200);
                 expect(res).to.be.json;
                 expect(res.body).to.be.a('array');
-                expect(res.body.length).to.be.at.least(2);
-                const expectedKeys = ['id', 'title', 'content', 'author'];
+                expect(res.body.length).to.be.at.above(0);
+
                 res.body.forEach(function(item) {
                     expect(item).to.be.a('object');
-                    expect(item).to.include.keys(expectedKeys);
+                    expect(item).to.have.all.keys('id', 'title', 'content', 'author', 'publishDate');
                 });
             });
     });
 
     it('should add a blogpost on POST', function() {
-        const newItem = {title: 'Fizz', content: 'fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz fizzbuzz', author: 'Buzz'};
+        const newPost = {title: 'Fizz', content: 'fizzbuzz fizzbuzz fizzbuzz ', author: 'Buzz'};
+
+        const expectedKeys = ['id', 'publishDate'].concat(Object.keys(newPost));
+
         return chai.request(app)
             .post('/blogPosts')
-            .send(newItem)
+            .send(newPost)
             .then(function(res) {
                 expect(res).to.have.status(201);
                 expect(res).to.be.json;
                 expect(res.body).to.be.a('object');
-                expect(res.body).to.include.keys('id', 'title', 'contnet', 'author');
-                expect(res.body).to.not.equal(null);
-                expect(res.body).to.deep.equal(Object.assign(newItem, {id:res.body.id}));
+                expect(res.body).to.have.all.keys(expectedKeys);
+                expect(res.body.title).to.equal(newPost.title);
+                expect(res.body.content).to.equal(newPost.content);
+                expect(res.body.author).to.equal(newPost.author);
             });
     });
 
@@ -63,10 +67,7 @@ describe('BlogPosts', function() {
                     .send(updateData);
             })
             .then(function(res) {
-                expect(res).to.have.status(200);
-                expect(res).to.be.json;
-                expect(res.body).to.be.a('object');
-                expect(res.body).to.deep.equal(updateData);
+                expect(res).to.have.status(204);
             });
     });
 
