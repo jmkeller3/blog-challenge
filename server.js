@@ -3,22 +3,21 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-
 mongoose.Promise = global.Promise;
 
-const { PORT, DATABASE_URL } = require('./config');
-const { Blogposts } = require('./models');
+const { DATABASE_URL, PORT } = require('./config');
+const { BlogPosts } = require('./models');
 const blogpostsRouter = require('./blogpostsRouter');
 
 const app = express();
 
 app.use(morgan('common'));
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/views/index.html');
-});
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + '/views/index.html');
+// });
 
 app.use('/blogposts', blogpostsRouter);
 
@@ -60,4 +59,4 @@ if (require.main === module) {
     runServer(DATABASE_URL).catch(err => console.log(err));
 };
 
-module.exports = {app, runServer, closeServer};
+module.exports = {runServer, app, closeServer};

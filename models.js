@@ -1,12 +1,16 @@
 'use strict'
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 
 const blogpostSchema = mongoose.Schema({
   title: {type: String, required: true},
-  content: {type: String, required: true},
-  author: {type: String, required: true},
-  time: {type: String, required: true},
+  content: {type: String},
+  author: {
+    firstName: String,
+    lastName: String
+  },
+  created: {type: Date, default: Date.now()},
 });
 
 blogpostSchema.virtual('authorName').get(function() {
@@ -18,13 +22,13 @@ blogpostSchema.methods.serialize = function() {
     title: this.title,
     content: this.content,
     author: this.authorName,
-    time: this.time
+    created: this.created
   }
 }
 
-const Blogposts = mongoose.model('Blogposts', blogpostSchema);
+const BlogPosts = mongoose.model('BlogPost', blogpostSchema);
 
-module.exports = {Blogposts};
+module.exports = {BlogPosts};
 
 
 // function StorageException(message) {

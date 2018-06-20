@@ -8,25 +8,25 @@ const uuid = require('uuid');
 const {BlogPosts} = require('./models');
 
 router.get('/', (req, res) => {
-    BlogPosts.find().then(blogposts => {
-        res.json({
-            blogposts: blogposts.map(
-                (blogpost.serialize()))
-        });
-    }).catch(err => {
-        console.log(err);
-        res.status(500).json({message: 'Internal server error'});
+    BlogPosts
+    .find()
+    .then(blogpost => {
+      res.json(blogpost.map(blogpost => blogpost.serialize()));
     })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'something went terribly wrong' });
+    });
 });
 
 router.get('/:id', (req, res) => {
     BlogPosts
-    .findById(req.params.id)
-    .then(blogpost => res.json(blogpost.serialize()))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({message: 'Internal server error'});
-    });
+        .findById(req.params.id)
+        .then(blogpost => res.json(blogpost.serialize()))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({message: 'Internal server error'});
+        });
 });
 
 router.post('/', jsonParser, (req, res) => {
@@ -42,11 +42,10 @@ router.post('/', jsonParser, (req, res) => {
 
     BlogPosts
     .create({
-        id: uuid.v4(),
         title: req.body.title,
         content: req.body.content,
         author: req.body.author,
-        publishDate: req.body.publishDate || Date.now()
+        // publishDate: req.body.publishDate || Date.now()
     })
     .then(blogpost => res.status(201).json(blogpost.serialize()))
     .catch(err => {
@@ -75,17 +74,21 @@ router.put('/:id', jsonParser, (req, res) => {
     });
 
     BlogPosts
-    .findByIdAndUpdate(req.params.id, {$set: toUpdate})
-    .then(blogpost => res.status(204).end())
+    .findByIdAndUpdate(req.params.id, {$set: toUpdate}, {new: true})
+    .then(updatedBlogPost => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
 router.delete('/:id', (req, res) => {
     BlogPosts
     .findByIdAndRemove(req.params.id)
-    .then(blogpost => res.status(204).end())
+    .then(() => res.status(204).end())
     .catch(err => res.status(500).json({message: 'Internal server error'}))
     ;
 });
+
+router.use('*', function (req, res) {
+    res.status(404).json({message: 'Not Found'});
+})
 
 module.exports = router;
