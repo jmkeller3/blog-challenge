@@ -1,19 +1,18 @@
 'use strict'
 
-// const uuid = require('uuid');
 const mongoose = require('mongoose');
 
-const BlogPostschema = mongoose.Schema({
+const blogpostSchema = mongoose.Schema({
   title: {type: String, required: true},
   content: {type: String, required: true},
   author: {type: String, required: true},
   time: {type: String, required: true},
 });
 
-BlogPostschema.virtual('authorName').get(function() {
+blogpostSchema.virtual('authorName').get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim()});
 
-BlogPostschema.methods.serialize = function() {
+blogpostSchema.methods.serialize = function() {
   return {
     id: this._id,
     title: this.title,
@@ -23,9 +22,9 @@ BlogPostschema.methods.serialize = function() {
   }
 }
 
-const BlogPosts = mongoose.model('BlogPosts', BlogPostschema);
+const Blogposts = mongoose.model('Blogposts', blogpostSchema);
 
-module.exports = {BlogPosts};
+module.exports = {Blogposts};
 
 
 // function StorageException(message) {
