@@ -6,11 +6,6 @@ const jsonParser = bodyParser.json();
 
 const {BlogPosts} = require('./models');
 
-//sample blogs
-BlogPosts.create('Who is Who at Whoville', 'Many are wondering who is top who for the whoville whovest . . .', 'Gary Whoster');
-BlogPosts.create('A Cat Sat on the Bat', 'My Thomas is an extraordinary creature who does amazing . . .', 'Cindy Walker');
-BlogPosts.create('Help Needed!', 'I need twelve large men to help my aunt move her Organ from the 12th . . .', 'Larry Tulip');
-
 router.get('/', (req, res) => {
     res.json(BlogPosts.get());
 });
